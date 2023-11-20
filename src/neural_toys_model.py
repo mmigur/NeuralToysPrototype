@@ -1,6 +1,6 @@
 import g4f
 
-import config
+from src import config
 
 class NeuralToysModel:
     def __init__(
@@ -23,7 +23,7 @@ class NeuralToysModel:
                            self.name
 
         response = g4f.ChatCompletion.create(
-            model=config.GPT_MODEL_NAME,
+            model=g4f.models.gpt_4,
             messages=[{"role": "user", "content": content_question}],
             stream=config.STREAM
         )
@@ -41,7 +41,7 @@ class NeuralToysModel:
                            self.name
         
         response = g4f.ChatCompletion.create(
-            model=config.GPT_MODEL_NAME,
+            model=g4f.models.gpt_4,
             messages=[{"role": "user", "content": content_question}],
             stream=config.STREAM
         )
@@ -50,6 +50,7 @@ class NeuralToysModel:
     
 
     def generate_story(
+            self,
             main_characters: str, 
             mission_of_main_characters: str,
             universe: str,
@@ -74,9 +75,18 @@ class NeuralToysModel:
                            user_additions
         
         response = g4f.ChatCompletion.create(
-            model=config.GPT_MODEL_NAME,
+            model=g4f.models.gpt_4,
             messages=[{"role": "user", "content": content_question}],
             stream=config.STREAM
         )
 
         return "".join(response)
+    
+
+    def get_interesting_fact(self):
+        """
+        Функция, выдающая ребенку интересный факт.
+        Возвращает: интересный факт, который еще и полезен для ребенка.
+        """
+        content = config.INTERESTING_FACT + \
+                  self.age

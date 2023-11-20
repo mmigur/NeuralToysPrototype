@@ -6,6 +6,7 @@ load_dotenv()
 # Дополнение к промтам chat-gpt
 KIDS_MODE = os.environ.get("KIDS_MODE")
 ADVICE_TEMPLATE = os.environ.get("ADVICE_TEMPLATE")
+INTERESTING_FACT = os.environ.get("INTERESTING_FACT")
 
 # Настройки запроса
 GPT_MODEL_NAME = os.environ.get("GPT_MODEL_NAME")
