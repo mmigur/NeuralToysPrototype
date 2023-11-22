@@ -1,16 +1,5 @@
-import g4f
-
 from fastapi import FastAPI
 from src.neural_toys_model import NeuralToysModel
-
-"""story = neural_toys_model.generate_story(
-        main_characters='Рыцарь',
-        mission_of_main_characters='победить все зло на планете',
-        universe='майнкрафт',
-        additional_characters='его помощник эльф, его женна Аня',
-        user_additions='его главным врагом будет большой черный дракон'
-)
-print(f"Сказка - {story}", flush=True)"""
 
 app = FastAPI(
     title="NeuralToys", 
@@ -45,7 +34,14 @@ async def get_story(
         name: str
     ):
     neural_toys_model = NeuralToysModel(age=age, name=name)
-    return {"status": 200, "story": "test"}
+    story = neural_toys_model.generate_story(
+        main_characters=main_characters,
+        mission_of_main_characters=mission_of_main_characters,
+        universe=universe,
+        additional_characters=additional_characters,
+        user_additions=user_additions
+    )
+    return {"status": 200, "story": story}
 
 @app.get("/get_interesting_fact")
 async def get_interesting_fact(
@@ -53,4 +49,5 @@ async def get_interesting_fact(
         name: str
     ):
     neural_toys_model = NeuralToysModel(age=age, name=name)
-    return {"status": 200, "interesting_fact": "fact"}
+    interesting_fact = neural_toys_model.get_interesting_fact()
+    return {"status": 200, "interesting_fact": interesting_fact}

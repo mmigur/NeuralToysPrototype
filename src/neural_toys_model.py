@@ -1,6 +1,5 @@
-import g4f
-
 from src import config
+from src.utils_model import get_promt
 
 class NeuralToysModel:
     def __init__(
@@ -17,41 +16,29 @@ class NeuralToysModel:
         Принимает: вопрос ребенка.
         Возвращает: ответ, который ребенок может понять.
         """
-        content_question = questions + \
+        content = questions + \
                            config.KIDS_MODE + \
                            self.age + \
                            self.name
-
-        response = g4f.ChatCompletion.create(
-            model=g4f.models.gpt_4,
-            messages=[{"role": "user", "content": content_question}],
-            stream=config.STREAM
-        )
-
-        return "".join(response)
+        
+        return get_promt(content)
     
     def get_advide(self) -> str:
         """
         Функция, которая дает совет ребенку, помогающим ему существовать.
         Возвращает: совет для ребенка.
         """
-        content_question = config.ADVICE_TEMPLATE + \
+        content = config.ADVICE_TEMPLATE + \
                            config.KIDS_MODE + \
                            self.age + \
                            self.name
-        
-        response = g4f.ChatCompletion.create(
-            model=g4f.models.gpt_4,
-            messages=[{"role": "user", "content": content_question}],
-            stream=config.STREAM
-        )
 
-        return "".join(response)
+        return get_promt(content)
     
 
     def generate_story(
             self,
-            main_characters: str, 
+            main_characters: str,
             mission_of_main_characters: str,
             universe: str,
             additional_characters: str,
@@ -65,22 +52,18 @@ class NeuralToysModel:
                    и пожелания пользователя.
         Возвращает: сказу с параметрами пользователями.
         """
-        content_question = config.STORY_PROMT_PART_1 + \
-                           main_characters + \
-                           config.STORY_PROMT_PART_2 + \
-                           mission_of_main_characters + \
-                           config.STORY_PROMT_PART_3 + \
-                           universe + config.STORY_PROMT_PART_4 + \
-                           additional_characters + \
-                           user_additions
+        content = config.STORY_PROMT_PART_1 + \
+                            main_characters + \
+                            config.STORY_PROMT_PART_2 + \
+                            mission_of_main_characters + \
+                            config.STORY_PROMT_PART_3 + \
+                            universe + \
+                            config.STORY_PROMT_PART_4 + \
+                            additional_characters + \
+                            user_additions + \
+                            self.age
         
-        response = g4f.ChatCompletion.create(
-            model=g4f.models.gpt_4,
-            messages=[{"role": "user", "content": content_question}],
-            stream=config.STREAM
-        )
-
-        return "".join(response)
+        return get_promt(content)
     
 
     def get_interesting_fact(self):
@@ -90,3 +73,5 @@ class NeuralToysModel:
         """
         content = config.INTERESTING_FACT + \
                   self.age
+    
+        return get_promt(content)
